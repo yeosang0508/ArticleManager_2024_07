@@ -12,6 +12,8 @@ public class Main {
 
         int id = 1;
 
+        makeTestData();
+
         while (true) {
 
             System.out.print("명령어) ");
@@ -117,6 +119,15 @@ public class Main {
                 break;
             }
         }
+    }
+
+    private static void makeTestData() {
+        System.out.println("테스트 데이터 생성");
+
+        articles.add(new Article(1, "제목1","내용1",Util.date()));
+        articles.add(new Article(2,"제목2","내용2",Util.date()));
+        articles.add(new Article(3,"제목3","내용3",Util.date()));
+
     }
 
     public static Article findArticleId(int articleID) {
