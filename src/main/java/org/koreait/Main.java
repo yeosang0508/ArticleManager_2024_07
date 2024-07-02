@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        int id = 1;
+        int id = 4;
 
         makeTestData();
 
@@ -42,78 +42,56 @@ public class Main {
             } else if (order.startsWith("article detail")) {
                 String Id = order.substring("article detail".length()).trim();
 
-                if (Id.isEmpty()) {
-                    System.out.println("Id를 입력하지 않았습니다.");
-                    continue;
-                }
-
                 int articleId = Integer.parseInt(Id);
 
+                haveId(articleId);
                 findArticleId(articleId);
+                
+                Article article = findArticleId(articleId);
 
-                if (findArticleId(articleId) == null) {
-                    System.out.println(articleId + "번 게시글은 없습니다");
-                } else {
-                    Article article = findArticleId(articleId);
-
-                    System.out.println("번호 : " + articleId);
-                    System.out.println("날짜 : " + article.getDate());
-                    System.out.println("제목 : " + article.getTitle());
-                    System.out.println("내용 : " + article.getBody());
-                }
+                System.out.println("번호 : " + articleId);
+                System.out.println("날짜 : " + article.getDate());
+                System.out.println("제목 : " + article.getTitle());
+                System.out.println("내용 : " + article.getBody());
 
 
             } else if (order.startsWith("article delete")) {
                 String Id = order.substring("article delete".length()).trim();
 
-                if (Id.isEmpty()) {
-                    System.out.println("Id를 입력하지 않았습니다.");
-                    continue;
-                }
-
                 int articleId = Integer.parseInt(Id);
 
+                haveId(articleId);
                 findArticleId(articleId);
 
-                if (findArticleId(articleId) == null) {
-                    System.out.println(articleId + "번 게시글은 없습니다");
-                } else {
-                    articles.remove(articleId - 1);
 
-                    System.out.println(articleId + "번 게시글이 삭제되었습니다.");
-                }
+                articles.remove(articleId - 1);
+
+                System.out.println(articleId + "번 게시글이 삭제되었습니다.");
+
 
             } else if (order.startsWith("article modify")) {
                 String Id = order.substring("article modify".length()).trim();
 
-                if (Id.isEmpty()) {
-                    System.out.println("Id를 입력하지 않았습니다.");
-                    continue;
-                }
-
                 int articleId = Integer.parseInt(Id);
 
+                haveId(articleId);
                 findArticleId(articleId);
 
-                if (findArticleId(articleId) == null) {
-                    System.out.println(articleId + "번 게시글은 없습니다.");
-                } else {
-                    Article article = findArticleId(articleId);
-                    System.out.println("기존 제목 : " + article.getTitle());
-                    System.out.println("기존 내용 : " + article.getBody());
-                    System.out.println("=== 수정 ===");
-                    System.out.print("제목 : ");
-                    String title = sc.nextLine();
+                Article article = findArticleId(articleId);
 
-                    System.out.print("내용 : ");
-                    String body = sc.nextLine();
+                System.out.println("기존 제목 : " + article.getTitle());
+                System.out.println("기존 내용 : " + article.getBody());
+                System.out.println("=== 수정 ===");
+                System.out.print("제목 : ");
+                String title = sc.nextLine();
 
-                    article.setTitle(title);
-                    article.setBody(body);
+                System.out.print("내용 : ");
+                String body = sc.nextLine();
 
-                    System.out.println(articleId + "번 게시글이 수정되었습니다.");
-                }
+                article.setTitle(title);
+                article.setBody(body);
 
+                System.out.println(articleId + "번 게시글이 수정되었습니다.");
             } else if (order.equals("exit")) {
                 System.out.println("프로그램 종료");
                 break;
@@ -121,13 +99,26 @@ public class Main {
         }
     }
 
+
     private static void makeTestData() {
         System.out.println("테스트 데이터 생성");
 
-        articles.add(new Article(1, "제목1","내용1",Util.date()));
-        articles.add(new Article(2,"제목2","내용2",Util.date()));
-        articles.add(new Article(3,"제목3","내용3",Util.date()));
+        articles.add(new Article(1, "제목1", "내용1", Util.date()));
+        articles.add(new Article(2, "제목2", "내용2", Util.date()));
+        articles.add(new Article(3, "제목3", "내용3", Util.date()));
 
+    }
+
+
+    public static void haveId(int id) {
+        if (id == 0) {
+            System.out.println("Id를 입력하지 않았습니다.");
+            return;
+        }
+
+        if (findArticleId(id) == null) {
+            System.out.println(id + "번 게시글은 없습니다.");
+        }
     }
 
     public static Article findArticleId(int articleID) {
@@ -138,5 +129,5 @@ public class Main {
         }
         return null;
     }
-}
 
+}
