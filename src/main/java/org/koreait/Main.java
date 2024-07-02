@@ -59,6 +59,26 @@ public class Main {
                 }
 
 
+            } else if (order.startsWith("article delete")) {
+                String Id = order.substring("article delete".length()).trim();
+
+                if (Id.isEmpty()) {
+                    System.out.println("Id를 입력하지 않았습니다.");
+                    continue;
+                }
+
+                int articleId = Integer.parseInt(Id);
+
+                findArticleId(articleId);
+
+                if (findArticleId(articleId) == null) {
+                    System.out.println(articleId + "번 게시글은 없습니다");
+                } else {
+                    articles.remove(articleId - 1);
+
+                    System.out.println(articleId + "번 게시글이 삭제되었습니다.");
+                }
+
             } else if (order.equals("exit")) {
                 System.out.println("프로그램 종료");
                 break;
