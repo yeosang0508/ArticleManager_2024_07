@@ -52,10 +52,12 @@ public class Main {
                 if (findArticleId(articleId) == null) {
                     System.out.println(articleId + "번 게시글은 없습니다");
                 } else {
+                    Article article = findArticleId(articleId);
+
                     System.out.println("번호 : " + articleId);
-                    System.out.println("날짜 : " + findArticleId(articleId).getDate());
-                    System.out.println("제목 : " + findArticleId(articleId).getTitle());
-                    System.out.println("내용 : " + findArticleId(articleId).getBody());
+                    System.out.println("날짜 : " + article.getDate());
+                    System.out.println("제목 : " + article.getTitle());
+                    System.out.println("내용 : " + article.getBody());
                 }
 
 
@@ -77,6 +79,37 @@ public class Main {
                     articles.remove(articleId - 1);
 
                     System.out.println(articleId + "번 게시글이 삭제되었습니다.");
+                }
+
+            } else if (order.startsWith("article modify")) {
+                String Id = order.substring("article modify".length()).trim();
+
+                if (Id.isEmpty()) {
+                    System.out.println("Id를 입력하지 않았습니다.");
+                    continue;
+                }
+
+                int articleId = Integer.parseInt(Id);
+
+                findArticleId(articleId);
+
+                if (findArticleId(articleId) == null) {
+                    System.out.println(articleId + "번 게시글은 없습니다.");
+                } else {
+                    Article article = findArticleId(articleId);
+                    System.out.println("기존 제목 : " + article.getTitle());
+                    System.out.println("기존 내용 : " + article.getBody());
+                    System.out.println("=== 수정 ===");
+                    System.out.print("제목 : ");
+                    String title = sc.nextLine();
+
+                    System.out.print("내용 : ");
+                    String body = sc.nextLine();
+
+                    article.setTitle(title);
+                    article.setBody(body);
+
+                    System.out.println(articleId + "번 게시글이 수정되었습니다.");
                 }
 
             } else if (order.equals("exit")) {
