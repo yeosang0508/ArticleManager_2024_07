@@ -4,11 +4,22 @@ public class Article {
     int id;
     String title;
     String body;
+    String date;
 
-    public Article(int id, String title, String body) {
+
+    public Article(int id, String title, String body, String date) {
         this.id = id;
         this.title = title;
         this.body = body;
+        this.date = date;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public int getId() {
@@ -41,6 +52,7 @@ public class Article {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", body='" + body + '\'' +
+                ", date='" + date + '\'' +
                 '}';
     }
 }
