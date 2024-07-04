@@ -16,7 +16,8 @@ public class Main {
         int memberid = 1;
         byte status = 1;
 
-        makeTestData();
+        articleMakeTestData();
+        memberMakeTestData();
 
         while (true) {
 
@@ -155,7 +156,7 @@ public class Main {
     }
 
 
-    private static void makeTestData() {
+    private static void articleMakeTestData() {
         System.out.println("테스트 데이터 생성");
 
         articles.add(new Article(1, "제목1", "내용1", Util.date()));
@@ -163,6 +164,16 @@ public class Main {
         articles.add(new Article(3, "제목3", "내용3", Util.date()));
 
     }
+
+    private static void memberMakeTestData() {
+        System.out.println("회원 데이터 생성");
+
+        members.add(new Member(1, Util.date(), "a", "a", "a"));
+        members.add(new Member(2, Util.date(), "b", "b", "b"));
+        members.add(new Member(3, Util.date(), "c", "c", "c"));
+
+    }
+
 
     public static boolean isJoinableLoginId(String loginid) {
         for (Member member : members) {
