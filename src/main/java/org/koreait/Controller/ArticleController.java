@@ -7,9 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class ArticleController {
-    List<Article> articles;
-    Scanner sc;
+public class ArticleController extends Controller {
+    private List<Article> articles;
+    private Scanner sc;
+    private String cmd;
+
     private int id = 4;
 
     public ArticleController(Scanner sc) {
@@ -17,7 +19,32 @@ public class ArticleController {
         articles = new ArrayList<>();
     }
 
-    public void dowrite() {
+    public void doAction(String cmd, String actionMethodName){
+        this.cmd = cmd;
+
+        switch (actionMethodName){
+            case"write":
+                doWrite();
+                break;
+            case "list":
+                showList(cmd);
+                break;
+            case "detail":
+                showDetail(cmd);
+                break;
+            case "modify":
+                doModify(cmd);
+                break;
+            case "delete":
+                doDelete(cmd);
+                break;
+            default:
+                System.out.println("명령어 확인 (actionMethodName) 오류");
+                break;
+        }
+    }
+
+    private void doWrite() {
         System.out.print("제목: ");
         String title = sc.nextLine();
         System.out.print("내용: ");
@@ -30,7 +57,7 @@ public class ArticleController {
         System.out.println(id++ + "번 글이 생성되었습니다.");
     }
 
-    public void showlist(String cmd) {
+    private void showList(String cmd) {
         System.out.println("번호   /   제목   /   내용");
 
         String findparttitle = cmd.substring("article list".length()).trim();
@@ -50,7 +77,7 @@ public class ArticleController {
     }
 
 
-    public void showdetail(String cmd) {
+    private void showDetail(String cmd) {
         String Id = cmd.substring("article detail".length()).trim();
 
         int articleId = Integer.parseInt(Id);
@@ -67,7 +94,7 @@ public class ArticleController {
 
     }
 
-    public void dodelete(String cmd) {
+    private void doDelete(String cmd) {
         String Id = cmd.substring("article delete".length()).trim();
 
         int articleId = Integer.parseInt(Id);
@@ -81,7 +108,7 @@ public class ArticleController {
         System.out.println(articleId + "번 게시글이 삭제되었습니다.");
     }
 
-    public void domodify(String cmd) {
+    private void doModify(String cmd) {
         String Id = cmd.substring("article modify".length()).trim();
 
         int articleId = Integer.parseInt(Id);

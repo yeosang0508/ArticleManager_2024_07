@@ -1,11 +1,11 @@
 package org.koreait;
 
 public class Member {
-    int id;
-    String regDate;
-    String loginId;
-    String loginPw;
-    String name;
+    private int id;
+    private String regDate;
+    private String loginId;
+    private String loginPw;
+    private String name;
 
     public Member(int id, String regDate, String loginId, String loginPw, String name) {
         this.id = id;

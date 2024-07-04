@@ -7,9 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class MemberController {
-    Scanner sc;
-    List<Member> members;
+public class MemberController extends Controller {
+    private Scanner sc;
+    private List<Member> members;
+    private String cmd;
+
     private int memberid = 1;
 
     public MemberController(Scanner sc) {
@@ -17,7 +19,20 @@ public class MemberController {
         members = new ArrayList<>();
     }
 
-    public void doJoin() {
+    public void doAction(String cmd, String actionMethodName) {
+        this.cmd = cmd;
+
+        switch (actionMethodName) {
+            case "join":
+                doJoin();
+                break;
+            default:
+                System.out.println("명령어 확인 (actionMethodName) 오류");
+                break;
+        }
+    }
+
+    private void doJoin() {
 
         System.out.println("== 회원가입 ==");
         int id = memberid + 1;
@@ -56,10 +71,10 @@ public class MemberController {
 
         members.add(member);
 
-        System.out.println("회원가입 완료");
+        System.out.println(name + "님 회원가입 되었습니다.");
     }
 
-    public boolean isJoinableLoginId(String loginid) {
+    private boolean isJoinableLoginId(String loginid) {
         for (Member member : members) {
             if (member.getLoginId().equals(loginid)) {
                 return false;

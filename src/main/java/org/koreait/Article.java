@@ -1,10 +1,10 @@
 package org.koreait;
 
 public class Article {
-    int id;
-    String title;
-    String body;
-    String date;
+    private int id;
+    private String title;
+    private String body;
+    private String date;
 
 
     public Article(int id, String title, String body, String date) {
