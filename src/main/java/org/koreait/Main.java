@@ -1,16 +1,20 @@
 package org.koreait;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     static List<Article> articles = new ArrayList<>();
+    static List<Member> members = new ArrayList<>();
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
         int id = 4;
+        int memberid = 1;
+        byte status = 1;
 
         makeTestData();
 
@@ -19,7 +23,48 @@ public class Main {
             System.out.print("명령어) ");
             String order = sc.nextLine();
 
-            if (order.equals("article write")) {
+            if (order.equals("member join")) {
+                System.out.println("== 회원가입 ==");
+                String regDate = Util.date();
+                String loginId = null;
+                String loginPw = null;
+
+                while (true) {
+                    System.out.print("아이디 : ");
+                    loginId = sc.nextLine().trim();
+
+                    if (isJoinableLoginId(loginId) == false) {
+                        System.out.println("아이디 중복, 다른 아이디를 입력해주세요.");
+                        continue;
+                    }
+                    break;
+                }
+
+                while (true) {
+                    System.out.print("비밀번호 : ");
+                    loginPw = sc.nextLine();
+
+                    System.out.print("비밀번호 확인 : ");
+                    String checkPw = sc.nextLine();
+
+                    if (!loginPw.equals(checkPw)) {
+                        System.out.println("비밀번호가 다릅니다. 다시 입력해주세요.");
+                        continue;
+                    }
+                    System.out.println("비밀번호 일치");
+                    break;
+                }
+                System.out.print("사용자 이름 : ");
+                String name = sc.nextLine();
+
+                Member member = new Member(memberid++, regDate, loginId, loginPw, name);
+
+                members.add(member);
+
+                System.out.println("회원가입 완료");
+
+
+            } else if (order.equals("article write")) {
                 System.out.print("제목: ");
                 String title = sc.nextLine();
                 System.out.print("내용: ");
@@ -35,9 +80,9 @@ public class Main {
                 System.out.println("번호   /   제목   /   내용");
 
                 String findparttitle = order.substring("article list".length()).trim();
-                if(findparttitle != ""){
-                    for(Article article : articles){
-                        if(article.getTitle().contains(findparttitle)){
+                if (findparttitle != "") {
+                    for (Article article : articles) {
+                        if (article.getTitle().contains(findparttitle)) {
                             System.out.println(article.getId() + "   /   " + article.getTitle() + "   /   " + article.getBody());
                         }
                     }
@@ -56,7 +101,7 @@ public class Main {
 
                 haveId(articleId);
                 findArticleId(articleId);
-                
+
                 Article article = findArticleId(articleId);
 
                 System.out.println("번호 : " + articleId);
@@ -119,6 +164,14 @@ public class Main {
 
     }
 
+    public static boolean isJoinableLoginId(String loginid) {
+        for (Member member : members) {
+            if (member.getLoginId().equals(loginid)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public static void haveId(int id) {
         if (id == 0) {
