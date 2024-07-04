@@ -31,14 +31,24 @@ public class Main {
 
                 System.out.println(id++ + "번 글이 생성되었습니다.");
 
-            } else if (order.equals("article list")) {
+            } else if (order.startsWith("article list")) {
                 System.out.println("번호   /   제목   /   내용");
 
+                String findparttitle = order.substring("article list".length()).trim();
+                if(findparttitle != ""){
+                    for(Article article : articles){
+                        if(article.getTitle().contains(findparttitle)){
+                            System.out.println(article.getId() + "   /   " + article.getTitle() + "   /   " + article.getBody());
+                        }
+                    }
+                    continue;
+                }
                 for (int i = articles.size() - 1; i >= 0; i--) {
                     Article article = articles.get(i);
 
                     System.out.println(article.getId() + "   /   " + article.getTitle() + "   /   " + article.getBody());
                 }
+
             } else if (order.startsWith("article detail")) {
                 String Id = order.substring("article detail".length()).trim();
 
