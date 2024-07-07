@@ -3,13 +3,13 @@ package org.koreait.Controller;
 import org.koreait.Member;
 
 public class Controller {
-    protected Member loginMember = null;
+    protected static Member loginMember = null;
 
     public void doAction(String cmd, String actionMethodName){
 
     }
 
-    protected boolean isLogined() {
+    public static boolean isLogined() {
         return loginMember != null;
     }
 
