@@ -26,10 +26,48 @@ public class MemberController extends Controller {
             case "join":
                 doJoin();
                 break;
+            case "login":
+                doLogin();
+                break;
             default:
                 System.out.println("명령어 확인 (actionMethodName) 오류");
                 break;
         }
+    }
+
+    private void doLogin() {
+        while (true) {
+
+            System.out.print("아이디 : ");
+            String loginId = sc.nextLine();
+
+            System.out.print("비밀번호 : ");
+            String loginPw = sc.nextLine();
+
+           if (isJoinableLoginId(loginId) == true){
+               System.out.println("로그인 정보를 찾을 수 없습니다. 다른 아이디 또는 회원가입 해주세요.");
+               continue;
+           }
+
+            if(getMember(loginId).getLoginId() == null){
+                System.out.println("아이디를 찾을 수 없습니다.");
+                continue;
+            }
+
+            if(getMember(loginId).getLoginPw() == null){
+                System.out.println("비밀번호가 다릅니다.");
+                continue;
+            }else {
+                System.out.println("로그인 되었습니다.");
+
+                getMember(loginId);
+                break;
+            }
+
+        }
+
+
+
     }
 
     private void doJoin() {
@@ -72,6 +110,15 @@ public class MemberController extends Controller {
         members.add(member);
 
         System.out.println(name + "님 회원가입 되었습니다.");
+    }
+
+    private Member getMember(String loginId) {
+        for (Member member : members) {
+           if (member.getLoginId() .equals(loginId)) {
+                return member;
+            }
+        }
+        return null;
     }
 
     private boolean isJoinableLoginId(String loginid) {
