@@ -11,7 +11,6 @@ public class MemberController extends Controller {
     private Scanner sc;
     private List<Member> members;
     private String cmd;
-    private Member loginMember = null;
 
     private int memberid = 1;
 
@@ -25,10 +24,25 @@ public class MemberController extends Controller {
 
         switch (actionMethodName) {
             case "join":
+                if (isLogined()) {
+                    System.out.println("로그인 상태입니다.");
+                    return;
+                }
                 doJoin();
                 break;
             case "login":
+                if (isLogined()) {
+                    System.out.println("로그인 상태입니다.");
+                    return;
+                }
                 doLogin();
+                break;
+            case "logout":
+                if (!isLogined()) {
+                    System.out.println("이미 로그아웃 상태입니다.");
+                    return;
+                }
+                doLogout();
                 break;
             default:
                 System.out.println("명령어 확인 (actionMethodName) 오류");
@@ -36,9 +50,6 @@ public class MemberController extends Controller {
         }
     }
 
-    private boolean isLogined() {
-        return loginMember != null;
-    }
 
     private void doLogout() {
         if (!isLogined()) {
