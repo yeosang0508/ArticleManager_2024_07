@@ -11,6 +11,7 @@ public class MemberController extends Controller {
     private Scanner sc;
     private List<Member> members;
     private String cmd;
+    private Member loginMember = null;
 
     private int memberid = 1;
 
@@ -35,40 +36,54 @@ public class MemberController extends Controller {
         }
     }
 
+    private boolean isLogined() {
+        return loginMember != null;
+    }
+
+    private void doLogout() {
+        if (!isLogined()) {
+            System.out.println("이미 로그아웃 되었습니다.");
+            return;
+        }
+        loginMember = null;
+
+        System.out.println("로그아웃 되었습니다.");
+
+    }
+
+
     private void doLogin() {
-        while (true) {
 
-            System.out.print("아이디 : ");
-            String loginId = sc.nextLine();
+        if (isLogined()) {
+            System.out.println("이미 로그인 중 입니다.");
+            return;
+        }
 
-            System.out.print("비밀번호 : ");
-            String loginPw = sc.nextLine();
+        System.out.print("아이디 : ");
+        String loginId = sc.nextLine();
 
-           if (isJoinableLoginId(loginId) == true){
-               System.out.println("로그인 정보를 찾을 수 없습니다. 다른 아이디 또는 회원가입 해주세요.");
-               continue;
-           }
+        System.out.print("비밀번호 : ");
+        String loginPw = sc.nextLine();
 
-            if(getMember(loginId).getLoginId() == null){
-                System.out.println("아이디를 찾을 수 없습니다.");
-                continue;
-            }
+        Member member = getMember(loginId);
 
-            if(getMember(loginId).getLoginPw() == null){
-                System.out.println("비밀번호가 다릅니다.");
-                continue;
-            }else {
-                System.out.println("로그인 되었습니다.");
+        if (member == null) {
+            System.out.println("로그인 정보를 찾을 수 없습니다. 다른 아이디 또는 회원가입 해주세요.");
+            return;
+        }
 
-                getMember(loginId);
-                break;
-            }
-
+        if (member.getLoginPw().equals(loginPw) == false) {
+            System.out.println("비밀번호가 다릅니다.");
+            return;
         }
 
 
+        loginMember = member;
+        System.out.println(member.getName() + "님 로그인 되었습니다.");
+
 
     }
+
 
     private void doJoin() {
 
@@ -112,9 +127,10 @@ public class MemberController extends Controller {
         System.out.println(name + "님 회원가입 되었습니다.");
     }
 
+
     private Member getMember(String loginId) {
         for (Member member : members) {
-           if (member.getLoginId() .equals(loginId)) {
+            if (member.getLoginId().equals(loginId)) {
                 return member;
             }
         }
